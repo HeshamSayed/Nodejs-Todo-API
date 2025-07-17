@@ -41,6 +41,34 @@ app.get('/todos', (req, res) => {
   });
 });
 
+
+app.get('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  
+  if (isNaN(id)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid todo ID. ID must be a number.'
+    });
+  }
+  
+  const todo = todos.find(t => t.id === id);
+  
+  if (!todo) {
+    return res.status(404).json({
+      success: false,
+      message: `Todo with ID ${id} not found`
+    });
+  }
+  
+  res.json({
+    success: true,
+    message: 'Todo retrieved successfully',
+    data: todo
+  });
+});
+
+
 app.post('/todos', (req, res) => {
   const { title, description } = req.body;
   
