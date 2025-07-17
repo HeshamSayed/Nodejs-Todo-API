@@ -13,11 +13,30 @@ app.use((req, res, next) => {
   next();
 });
 
+let todos = [];
+let nextId = 1;
+
+
+// ===== ROUTES =====
+// Basic route - our first endpoint
 app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to Todo API!',
     status: 'Server is running',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    availableEndpoints: [
+      'GET / - This welcome message',
+      'GET /todos - Get all todos'
+    ]
+  });
+});
+
+app.get('/todos', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Todos retrieved successfully',
+    count: todos.length,
+    data: todos
   });
 });
 
